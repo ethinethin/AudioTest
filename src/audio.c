@@ -46,7 +46,7 @@ static void
 load_music(void)
 {
 	int i;
-	char *names[] = { "song1.wav", "song2.wav" };
+	char *names[] = { "wav/song1.wav", "wav/song2.wav" };
 	
 	songs = malloc(sizeof(*songs) * 2);
 	for (i = 0; i < 2; i += 1) {
@@ -62,7 +62,9 @@ load_music(void)
 static void
 unload_music(void)
 {
+	SDL_CloseAudioDevice(songs[0].devid);
 	SDL_FreeWAV(songs[0].buf);
+	SDL_CloseAudioDevice(songs[1].devid);
 	SDL_FreeWAV(songs[1].buf);
 	free(songs);
 }
@@ -71,10 +73,10 @@ static void
 load_sounds(void)
 {
 	int i;
-	char *names[] = { "enemies01.wav", "enemies02.wav", "enemies03.wav", "enemies04.wav",
-			  "enemies05.wav" };
-	char *names_hearts[] = { "hearts01.wav", "hearts02.wav", "hearts03.wav", "hearts04.wav",
-				 "hearts05.wav" };
+	char *names[] = { "wav/enemies01.wav", "wav/enemies02.wav", "wav/enemies03.wav",
+			  "wav/enemies04.wav", "wav/enemies05.wav" };
+	char *names_hearts[] = { "wav/hearts01.wav", "wav/hearts02.wav", "wav/hearts03.wav",
+				 "wav/hearts04.wav", "wav/hearts05.wav" };
 				 
 	/* Allocate memory */
 	enemy_sounds = malloc(sizeof(*enemy_sounds) * 5);
@@ -103,7 +105,9 @@ unload_sounds(void)
 	int i;
 	
 	for (i = 0; i < 5; i += 1) {
+		SDL_CloseAudioDevice(enemy_sounds[i].devid);
 		SDL_FreeWAV(enemy_sounds[i].buf);
+		SDL_CloseAudioDevice(heart_sounds[i].devid);
 		SDL_FreeWAV(heart_sounds[i].buf);
 	}
 	free(enemy_sounds);
